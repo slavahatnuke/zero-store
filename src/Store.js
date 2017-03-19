@@ -14,6 +14,10 @@ module.exports = class Store {
     };
 
     get(id) {
+        if (Array.isArray(id)) {
+            return Promise.all(id.map((id) => this.get(id)));
+        }
+
         return this.jwt
             .decrypt(id)
             .then((result) => {
@@ -32,7 +36,16 @@ module.exports = class Store {
     }
 
     save(data = {}) {
+        if (Array.isArray(data)) {
+            return Promise.all(data.map((object) => this.save(object)));
+        }
+
         return Promise.resolve(data)
+            .then((data) => {
+                data = Object.assign({}, data);
+                if (data.id) delete data.id;
+                return data;
+            })
             .then((data) => {
                 if (this.options.compression) {
                     return Pako.compress(data)

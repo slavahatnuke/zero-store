@@ -1,6 +1,5 @@
 const assert = require('assert');
 const {Store} = require('..');
-require('../src/Pako')
 
 describe('test', () => {
     let store;
@@ -58,7 +57,6 @@ describe('test', () => {
 
                                 delete user1.id;
                                 delete user2.id;
-                                console.log(id1.length, id2.length);
 
                                 assert.deepEqual(user1, user2);
                                 assert.equal(true, id1.length > id2.length);
@@ -67,4 +65,48 @@ describe('test', () => {
                     })
             })
     });
+
+    it('save and get data by ids[]', () => {
+        let originUser1 = {
+            name: 'slava'
+        };
+
+        let originUser2 = {
+            name: 'plus'
+        };
+
+        return store
+            .save([
+                originUser1,
+                originUser2,
+            ])
+            .then(([user1, user2]) => {
+                assert.equal(user1.name, originUser1.name);
+                assert.equal(user2.name, originUser2.name);
+
+                let ids = [user1.id, user2.id];
+
+                return store.get(ids)
+                    .then(([user1, user2]) => {
+                        assert.equal(user1.name, originUser1.name);
+                        assert.equal(user2.name, originUser2.name);
+                    });
+            });
+    });
+
+    it('when save twice it should not grow', () => {
+        return store
+            .save({
+                name: 'slava',
+            })
+            .then((user) => {
+                let aUser = user;
+
+                return store.save(user)
+                    .then((user) => {
+                        assert.equal(user.id, aUser.id);
+                    });
+            });
+    });
+
 });
