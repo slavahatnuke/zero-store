@@ -25,10 +25,19 @@ describe('test', () => {
             .save(user)
             .then((user) => store.get(user.id))
             .then((result) => {
-                delete result.id;
-                assert.deepEqual(result, user)
-            });
+                console.log(result);
 
+                // { name: 'slava',
+                //     id: 'id....' }
+
+                delete result.id;
+
+                assert.deepEqual(
+                    {
+                        name: 'slava',
+                    }
+                    , user)
+            });
     });
 
     it('test compressed store and uncompressed', () => {
@@ -105,6 +114,24 @@ describe('test', () => {
                 return store.save(user)
                     .then((user) => {
                         assert.equal(user.id, aUser.id);
+                    });
+            });
+    });
+
+    it('when data updated it gives new id, be careful its immutable, when you update model', () => {
+        return store
+            .save({
+                name: 'slava',
+            })
+            .then((user) => {
+                let aUser = Object.assign({}, user);
+                user.name = 'xxxx';
+
+                return store.save(user)
+                    .then((user) => {
+                        assert.notEqual(user.id, aUser.id);
+                        assert.equal(aUser.name, 'slava');
+                        assert.equal(user.name, 'xxxx');
                     });
             });
     });
