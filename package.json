@@ -1,6 +1,6 @@
 {
   "name": "zero-store",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "zero-store",
   "main": "index.js",
   "bin": {
