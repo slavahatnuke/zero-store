@@ -56,19 +56,12 @@ describe('test', () => {
                                 let id1 = user1.id;
                                 let id2 = user2.id;
 
-                                // console.log(user1, user2)
-
                                 delete user1.id;
                                 delete user2.id;
-                                //
-                                // console.log('user1', user1);
-                                // console.log('user2', user2);
-                                //
-                                // console.log('id1', id1);
-                                // console.log('id2', id2);
-                                // console.log(id1.length, id2.length);
+                                console.log(id1.length, id2.length);
 
                                 assert.deepEqual(user1, user2);
+                                assert.equal(true, id1.length > id2.length);
                             })
 
                     })
