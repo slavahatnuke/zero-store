@@ -25,7 +25,7 @@ describe('test', () => {
             .save(user)
             .then((user) => store.get(user.id))
             .then((result) => {
-                console.log(result);
+                // console.log(result);
 
                 // { name: 'slava',
                 //     id: 'id....' }
