@@ -65,7 +65,7 @@ describe('test', () => {
             .save(user)
             .then((user) => store.get(user.id))
             .then((result) => {
-                console.log(result);
+                // console.log(result);
 
                 // { name: 'slava',
                 //     id: 'id....' }
@@ -82,8 +82,8 @@ describe('test', () => {
 
     it('test compressed store and uncompressed', () => {
 
-        let store1 = new Store({secret: 'secret....', compression: false});
-        let store2 = new Store({secret: 'secret....', compression: true}); // by default
+        let store1 = new Store({secret: 'secret....', compression: false});  // by default
+        let store2 = new Store({secret: 'secret....', compression: true});
 
         let user = {
             name: 'slava',

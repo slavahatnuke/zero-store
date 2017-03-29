@@ -1,6 +1,6 @@
 {
   "name": "zero-store",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "zero-store - Immutable Zero Knowledge store",
   "main": "index.js",
   "bin": {

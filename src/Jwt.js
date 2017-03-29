@@ -5,7 +5,8 @@ module.exports = class Jwt {
         this.options = Object.assign({
             secret: null,
             publicKey: null,
-            privateKey: null
+            privateKey: null,
+            expiresIn: undefined
         }, options);
     }
 
@@ -13,6 +14,11 @@ module.exports = class Jwt {
         return new Promise((resolve, reject) => {
             let key = this.options.privateKey || this.options.secret;
             if (!key) return reject(new Error('No secret'));
+
+            if(this.options.expiresIn) {
+                options.expiresIn = options.expiresIn || this.options.expiresIn;
+            }
+
             jwt.sign(payload, key, options, (err, result) => err ? reject(err) : resolve(result));
         });
     }

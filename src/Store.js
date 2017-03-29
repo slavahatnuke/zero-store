@@ -7,7 +7,8 @@ module.exports = class Store {
             secret: null,
             publicKey: null,
             privateKey: null,
-            compression: true
+            compression: false,
+            expiresIn: undefined
         }, options);
 
         this.jwt = new Jwt(this.options);
@@ -21,12 +22,12 @@ module.exports = class Store {
         return this.jwt
             .decrypt(id)
             .then((result) => {
-                if (result.d) {
-                    return result.d;
+                if (result.data) {
+                    return result.data;
                 }
 
-                if (result.c) {
-                    return Pako.decompress(result.c);
+                if (result.z) {
+                    return Pako.decompress(result.z);
                 }
             })
             .then((data) => {
@@ -49,9 +50,9 @@ module.exports = class Store {
             .then((data) => {
                 if (this.options.compression) {
                     return Pako.compress(data)
-                        .then((data) => this.jwt.encrypt({c: data}))
+                        .then((data) => this.jwt.encrypt({z: data}))
                 } else {
-                    return this.jwt.encrypt({d: data})
+                    return this.jwt.encrypt({data: data})
                 }
             })
             .then((id) => {
